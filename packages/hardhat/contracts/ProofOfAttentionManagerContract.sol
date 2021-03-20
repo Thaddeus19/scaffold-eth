@@ -4,8 +4,9 @@ pragma solidity >=0.6.0 <0.7.0;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "hardhat/console.sol";
 
-contract DemoErc1155 is ERC1155, Ownable {
+contract ProofOfAttentionManagerContract is ERC1155, Ownable {
     uint256 public constant GOLD = 0;
     uint256 public constant SILVER = 1;
     uint256 public constant THORS_HAMMER = 2;
@@ -13,6 +14,9 @@ contract DemoErc1155 is ERC1155, Ownable {
     uint256 public constant SHIELD = 4;
 
     uint256 public constant ATTENTION_TOKEN = 5;
+    uint256 public constant FUNGIBLE_TOKEN = 6;
+
+    uint256 public constant ASSUMED_ATTENTION_TO_FUNGIBLE_CONVERSION_REQUIREMENT = 10;
 
     constructor() public ERC1155("https://game.example/api/item/{id}.json") {
         _mint(msg.sender, GOLD, 10**18, "");
@@ -22,10 +26,24 @@ contract DemoErc1155 is ERC1155, Ownable {
         _mint(msg.sender, SHIELD, 10**9, "");
     }
 
+    //////////////////////////////////////////////////////////////////////////////////
+    // Custom Logic for this contract ////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
     function mintAttentionReward(address to) public onlyOwner returns (bool) {
         _mint(to, ATTENTION_TOKEN, 1, "");
         return true;
     }
+
+    function burnAttentionForReward() public returns (bool) {
+        require(balanceOf(msg.sender, ATTENTION_TOKEN) >= ASSUMED_ATTENTION_TO_FUNGIBLE_CONVERSION_REQUIREMENT, "AttentionToken: You don't have enough AttentionTokens to exchange for a FUNgible token.");
+        _burn(msg.sender, ATTENTION_TOKEN, ASSUMED_ATTENTION_TO_FUNGIBLE_CONVERSION_REQUIREMENT);
+        _mint(msg.sender, FUNGIBLE_TOKEN, 1, "");
+        return true;
+    }
+
+   //////////////////////////////////////////////////////////////////////////////////
+   // ERC1155 Overrides to prevent transfer  ////////////////////////////////////////
+   //////////////////////////////////////////////////////////////////////////////////
 
     function safeTransferFrom(
         address from,
