@@ -26,7 +26,6 @@ import { formatEther } from "@ethersproject/units";
 import { Hints, Erc20Sandbox } from "./views";
 import { INFURA_ID } from "./constants";
 import Erc1155Sandbox from "./views/Erc1155Sandbox";
-import Questions from "./views/Questions";
 import Quiz from "./views/Quiz";
 const { Title } = Typography;
 

@@ -9,8 +9,8 @@ export default function Header() {
       rel="noopener noreferrer"
     >
       <PageHeader
-        title="🏗 scaffold-eth"
-        subTitle="forkable Ethereum dev stack: erc20 edition"
+        title="Proof of Attention"
+        subTitle="Earn voting power by showing competence. Burn voting power for ERC20's or NFT's!"
         style={{ cursor: "pointer" }}
       />
     </a>
