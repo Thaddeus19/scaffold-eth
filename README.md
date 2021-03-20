@@ -1,6 +1,6 @@
-# 🏗 scaffold-eth
+# Proof of Attention
 
-> erc20 edition: this fork gets you started with your very own tokens.
+> Proof of Attention project for NFT Hack! created by @technoplato
 
 ---
 
