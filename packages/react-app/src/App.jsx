@@ -26,6 +26,7 @@ import { formatEther } from "@ethersproject/units";
 import { Hints, Erc20Sandbox } from "./views";
 import { INFURA_ID } from "./constants";
 import Erc1155Sandbox from "./views/Erc1155Sandbox";
+import Questions from "./views/Questions";
 const { Title } = Typography;
 
 const DEBUG = true;
@@ -127,6 +128,16 @@ function App(props) {
               Hints
             </Link>
           </Menu.Item>
+          <Menu.Item key="/typeform">
+            <Link
+              onClick={() => {
+                setRoute("/typeform");
+              }}
+              to="/typeform"
+            >
+              Hints
+            </Link>
+          </Menu.Item>
           <Menu.Item key="/erc20-sandbox">
             <Link
               onClick={() => {
@@ -169,6 +180,9 @@ function App(props) {
               localContracts={writeContracts}
               mainnetProvider={mainnetProvider}
             />
+          </Route>
+          <Route exact path="/typeform">
+            <Questions />
           </Route>
           <Route exact path={"/erc1155-sandbox"}>
             <Erc1155Sandbox
