@@ -56,17 +56,19 @@ const DEFAULTS_QUESTIONS = Object.freeze([
   {
     questionText: "",
     answerOptions: [
-      { answerText: "", isCorrect: false },
-      { answerText: "", isCorrect: false },
       { answerText: "", isCorrect: true },
-      { answerText: "", isCorrect: false },
+      { answerText: "", isCorrect: true },
+      { answerText: "", isCorrect: true },
+      { answerText: "", isCorrect: true },
     ],
   },
 ]);
 
-export default function Questions({ questions = DEFAULTS_QUESTIONS }) {
+export default function Questions({
+  questions = DEFAULTS_QUESTIONS,
+  handleQuestionsCompleted,
+}) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [showScore, setShowScore] = useState(false);
   const [score, setScore] = useState(0);
 
   const handleAnswerOptionClick = isCorrect => {
@@ -78,36 +80,28 @@ export default function Questions({ questions = DEFAULTS_QUESTIONS }) {
     if (nextQuestion < questions.length) {
       setCurrentQuestion(nextQuestion);
     } else {
-      setShowScore(true);
+      handleQuestionsCompleted(score);
     }
   };
   return (
     <div className="questions">
-      {showScore ? (
-        <div className="score-section">
-          You scored {score} out of {questions.length}
+      <div className="question-section">
+        <div className="question-count">
+          <span>Question {currentQuestion + 1}</span>/{questions.length}
         </div>
-      ) : (
-        <>
-          <div className="question-section">
-            <div className="question-count">
-              <span>Question {currentQuestion + 1}</span>/{questions.length}
-            </div>
-            <div className="question-text">
-              {questions[currentQuestion].questionText}
-            </div>
-          </div>
-          <div className="answer-section">
-            {questions[currentQuestion].answerOptions.map(answerOption => (
-              <button
-                onClick={() => handleAnswerOptionClick(answerOption.isCorrect)}
-              >
-                {answerOption.answerText}
-              </button>
-            ))}
-          </div>
-        </>
-      )}
+        <div className="question-text">
+          {questions[currentQuestion].questionText}
+        </div>
+      </div>
+      <div className="answer-section">
+        {questions[currentQuestion].answerOptions.map(answerOption => (
+          <button
+            onClick={() => handleAnswerOptionClick(answerOption.isCorrect)}
+          >
+            {answerOption.answerText}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

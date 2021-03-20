@@ -27,6 +27,7 @@ import { Hints, Erc20Sandbox } from "./views";
 import { INFURA_ID } from "./constants";
 import Erc1155Sandbox from "./views/Erc1155Sandbox";
 import Questions from "./views/Questions";
+import Quiz from "./views/Quiz";
 const { Title } = Typography;
 
 const DEBUG = true;
@@ -128,12 +129,12 @@ function App(props) {
               Hints
             </Link>
           </Menu.Item>
-          <Menu.Item key="/typeform">
+          <Menu.Item key="/quiz">
             <Link
               onClick={() => {
-                setRoute("/typeform");
+                setRoute("/quiz");
               }}
-              to="/typeform"
+              to="/quiz"
             >
               Hints
             </Link>
@@ -181,9 +182,11 @@ function App(props) {
               mainnetProvider={mainnetProvider}
             />
           </Route>
-          <Route exact path="/typeform">
-            <Questions />
+
+          <Route exact path="/quiz">
+            <Quiz />
           </Route>
+
           <Route exact path={"/erc1155-sandbox"}>
             <Erc1155Sandbox
               address={address}
