@@ -4,41 +4,80 @@ const { solidity } = require("ethereum-waffle")
 
 use(solidity)
 
+const ATTENTION_TOKEN_ID = 5
+
 describe("My Dapp", function () {
-  let myContract
-  // it("Should return the new greeting once it's changed", async function() {
-  //   const Greeter = await ethers.getContractFactory("Greeter");
-  //   const greeter = await Greeter.deploy("Hello, world!");
-  //
-  //   await greeter.deployed();
-  //   expect(await greeter.greet()).to.equal("Hello, world!");
-  //
-  //   await greeter.setGreeting("Hola, mundo!");
-  //   expect(await greeter.greet()).to.equal("Hola, mundo!");
-  // });
-
   describe("YourContract", function () {
-    it("Should deploy YourContract", async function () {
-      const YourContract = await ethers.getContractFactory("DemoErc1155")
-      const signers = await ethers.getSigners()
+    it("should prevent transfer of attention tokens", async () => {
+      const [owner, secondAccount] = await ethers.getSigners()
 
-      console.log(signers[0].address)
+      const ManagementContract = await ethers.getContractFactory("DemoErc1155")
 
-      myContract = await YourContract.deploy()
+      const management = await ManagementContract.deploy()
+      const numberAttentionTokensToMint = 5
 
-      console.log(await myContract.owner())
-      console.log(await myContract.owner())
+      /*
+       * Rewards attention tokens to the second address and ensure their
+       * balance is correct.
+       */
+      for (let i = 0; i < numberAttentionTokensToMint; i++) {
+        await management.mintAttentionReward(secondAccount.address)
+      }
+      const secondAttentionBalance = await management.balanceOf(
+        secondAccount.address,
+        ATTENTION_TOKEN_ID
+      )
+      expect(numberAttentionTokensToMint).to.equal(secondAttentionBalance)
+
+      const tokensToTransfer = 3
+      await expect(
+        management.safeTransferFrom(
+          secondAccount.address,
+          owner.address,
+          ATTENTION_TOKEN_ID,
+          tokensToTransfer,
+          "0x00"
+        )
+      ).to.be.revertedWith(
+        "AttentionToken: Cannot transfer earned tokens, can only burn for rewards."
+      )
     })
 
-    it("Deployment should assign the total supply of tokens to the owner", async function () {
-      const [owner] = await ethers.getSigners()
+    it("should prevent batch transfer of attention tokens", async () => {
+      const [owner, secondAccount] = await ethers.getSigners()
 
-      const Token = await ethers.getContractFactory("DemoErc1155")
+      const ManagementContract = await ethers.getContractFactory("DemoErc1155")
 
-      const hardhatToken = await Token.deploy()
+      const management = await ManagementContract.deploy()
 
-      const ownerBalance = await hardhatToken.balanceOf(owner.address, 2)
-      expect(1).to.equal(ownerBalance)
+      const numberAttentionTokensToMint = 5
+      /*
+       * Rewards attention tokens to the second address and ensure their
+       * balance is correct.
+       */
+      for (let i = 0; i < numberAttentionTokensToMint; i++) {
+        await management.mintAttentionReward(secondAccount.address)
+      }
+      const secondAttentionBalance = await management.balanceOf(
+        secondAccount.address,
+        ATTENTION_TOKEN_ID
+      )
+      expect(numberAttentionTokensToMint).to.equal(secondAttentionBalance)
+
+      const tokensToTransfer = 3
+      await expect(
+        management
+          .connect(secondAccount)
+          .safeBatchTransferFrom(
+            secondAccount.address,
+            owner.address,
+            [ATTENTION_TOKEN_ID],
+            [tokensToTransfer],
+            "0x00"
+          )
+      ).to.be.revertedWith(
+        "AttentionToken: Cannot transfer earned tokens, can only burn for rewards."
+      )
     })
   })
 })

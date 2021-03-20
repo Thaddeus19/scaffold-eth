@@ -25,7 +25,7 @@
   },
   "scripts": {
     "chain": "hardhat node",
-    "test": "hardhat test --verbose",
+    "test": "hardhat test",
     "test:watch": "nodemon -e js,sol --exec 'yarn test'",
     "compile": "hardhat compile",
     "deploy": "hardhat run scripts/deploy.js && hardhat run scripts/publish.js",
