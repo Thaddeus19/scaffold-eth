@@ -38,7 +38,7 @@ export default function AddressInput(props) {
     </div>
   );
 
-  const {ensProvider, onChange} = props;
+  const { ensProvider, onChange } = props;
   const updateAddress = useCallback(
     async newValue => {
       if (typeof newValue !== "undefined") {
@@ -86,7 +86,9 @@ export default function AddressInput(props) {
             console.log("SCAN VALUE", newValue);
             let possibleNewValue = newValue;
             if (possibleNewValue.indexOf("/") >= 0) {
-              possibleNewValue = possibleNewValue.substr(possibleNewValue.lastIndexOf("0x"));
+              possibleNewValue = possibleNewValue.substr(
+                possibleNewValue.lastIndexOf("0x"),
+              );
               console.log("CLEANED VALUE", possibleNewValue);
             }
             setScan(false);
@@ -104,8 +106,8 @@ export default function AddressInput(props) {
     <div>
       {scanner}
       <Input
-        id={"0xAddress"}//name it something other than address for auto fill doxxing
-        name={"0xAddress"}//name it something other than address for auto fill doxxing
+        id={"0xAddress"} //name it something other than address for auto fill doxxing
+        name={"0xAddress"} //name it something other than address for auto fill doxxing
         autoFocus={props.autoFocus}
         placeholder={props.placeholder ? props.placeholder : "address"}
         prefix={<Blockie address={currentValue} size={8} scale={3} />}

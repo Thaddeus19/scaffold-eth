@@ -1,1 +1,1 @@
-module.exports = ["Burnable","Fixed","Inflating","Unlimited"];
+module.exports = ["Burnable","DemoErc1155","Fixed","Inflating","Unlimited"];

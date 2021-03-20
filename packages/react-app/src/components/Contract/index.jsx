@@ -10,11 +10,27 @@ const noContractDisplay = (
     Loading...{" "}
     <div style={{ padding: 32 }}>
       You need to run{" "}
-      <span style={{ marginLeft: 4, backgroundColor: "#f1f1f1", padding: 4, borderRadius: 4, fontWeight: "bolder" }}>
+      <span
+        style={{
+          marginLeft: 4,
+          backgroundColor: "#f1f1f1",
+          padding: 4,
+          borderRadius: 4,
+          fontWeight: "bolder",
+        }}
+      >
         yarn run chain
       </span>{" "}
       and{" "}
-      <span style={{ marginLeft: 4, backgroundColor: "#f1f1f1", padding: 4, borderRadius: 4, fontWeight: "bolder" }}>
+      <span
+        style={{
+          marginLeft: 4,
+          backgroundColor: "#f1f1f1",
+          padding: 4,
+          borderRadius: 4,
+          fontWeight: "bolder",
+        }}
+      >
         yarn run deploy
       </span>{" "}
       to see your contract here.
@@ -24,7 +40,15 @@ const noContractDisplay = (
         ☢️
       </span>
       Warning: You might need to run
-      <span style={{ marginLeft: 4, backgroundColor: "#f1f1f1", padding: 4, borderRadius: 4, fontWeight: "bolder" }}>
+      <span
+        style={{
+          marginLeft: 4,
+          backgroundColor: "#f1f1f1",
+          padding: 4,
+          borderRadius: 4,
+          fontWeight: "bolder",
+        }}
+      >
         yarn run deploy
       </span>{" "}
       <i>again</i> after the frontend comes up!
@@ -32,9 +56,20 @@ const noContractDisplay = (
   </div>
 );
 
-const isQueryable = fn => (fn.stateMutability === "view" || fn.stateMutability === "pure") && fn.inputs.length === 0;
+const isQueryable = fn =>
+  (fn.stateMutability === "view" || fn.stateMutability === "pure") &&
+  fn.inputs.length === 0;
 
-export default function Contract({ account, gasPrice, signer, provider, name, show, price, blockExplorer }) {
+export default function Contract({
+  account,
+  gasPrice,
+  signer,
+  provider,
+  name,
+  show,
+  price,
+  blockExplorer,
+}) {
   const contracts = useContractLoader(provider);
   const contract = contracts ? contracts[name] : "";
   const address = contract ? contract.address : "";
@@ -44,17 +79,26 @@ export default function Contract({ account, gasPrice, signer, provider, name, sh
     () =>
       contract
         ? Object.values(contract.interface.functions).filter(
-            fn => fn.type === "function" && !(show && show.indexOf(fn.name) < 0),
+            fn =>
+              fn.type === "function" && !(show && show.indexOf(fn.name) < 0),
           )
         : [],
     [contract, show],
   );
 
-  const [refreshRequired, triggerRefresh] = useState(false)
+  const [refreshRequired, triggerRefresh] = useState(false);
   const contractDisplay = displayedContractFunctions.map(fn => {
     if (isQueryable(fn)) {
       // If there are no inputs, just display return value
-      return <DisplayVariable key={fn.name} contractFunction={contract[fn.name]} functionInfo={fn} refreshRequired={refreshRequired} triggerRefresh={triggerRefresh}/>;
+      return (
+        <DisplayVariable
+          key={fn.name}
+          contractFunction={contract[fn.name]}
+          functionInfo={fn}
+          refreshRequired={refreshRequired}
+          triggerRefresh={triggerRefresh}
+        />
+      );
     }
     // If there are inputs, display a form to allow users to provide these
     return (

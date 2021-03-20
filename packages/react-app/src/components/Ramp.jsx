@@ -17,7 +17,8 @@ export default function Ramp(props) {
           setModalUp("up");
         }}
       >
-        <DollarCircleOutlined style={{ color: "#52c41a" }} /> {props.price.toFixed(2)}
+        <DollarCircleOutlined style={{ color: "#52c41a" }} />{" "}
+        {props.price.toFixed(2)}
       </Button>
       <Modal
         title="Buy ETH"
@@ -42,11 +43,16 @@ export default function Ramp(props) {
             size="large"
             shape="round"
             onClick={() => {
-              window.open("https://pay.sendwyre.com/purchase?destCurrency=ETH&sourceAmount=25&dest=" + props.address);
+              window.open(
+                "https://pay.sendwyre.com/purchase?destCurrency=ETH&sourceAmount=25&dest=" +
+                  props.address,
+              );
             }}
           >
             <span style={{ paddingRight: 15 }} role="img">
-              <span role="img" aria-label="flag-us">🇺🇸</span>
+              <span role="img" aria-label="flag-us">
+                🇺🇸
+              </span>
             </span>
             Wyre
           </Button>
@@ -70,7 +76,9 @@ export default function Ramp(props) {
             }}
           >
             <span style={{ paddingRight: 15 }} role="img">
-            <span role="img" aria-label="flag-gb">🇬🇧</span>
+              <span role="img" aria-label="flag-gb">
+                🇬🇧
+              </span>
             </span>
             Ramp
           </Button>

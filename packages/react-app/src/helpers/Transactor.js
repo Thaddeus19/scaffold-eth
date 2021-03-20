@@ -59,7 +59,8 @@ export default function Transactor(provider, gasPrice, etherscan) {
           const { emitter } = notify.hash(result.hash);
           emitter.on("all", transaction => {
             return {
-              onclick: () => window.open((etherscan || etherscanTxUrl) + transaction.hash),
+              onclick: () =>
+                window.open((etherscan || etherscanTxUrl) + transaction.hash),
             };
           });
         } else {
