@@ -1,4 +1,4 @@
-# 🏗 scaffold-eth
+# Proof of Attention
 
 > Proof of Attention project for NFT Hack! created by @technoplato
 
