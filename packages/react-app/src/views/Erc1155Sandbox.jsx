@@ -15,8 +15,7 @@ function Erc1155Sandbox({ address, localContracts, mainnetProvider }) {
   const [addressAllowance, setAddressAllowance] = useState();
   const [myAllowanceOnAddress, setMyAllowanceOnAddress] = useState();
 
-  let contractOptions = localContracts ? Object.keys(localContracts) : [];
-  const [selectedContract, setSelectedContract] = useState("DemoErc1155");
+  const selectedContract = "ProofOfAttentionManagerContract";
 
   if (!localContracts) {
     return <> loading </>;
@@ -41,7 +40,6 @@ function Erc1155Sandbox({ address, localContracts, mainnetProvider }) {
   };
 
   let contractTitle;
-  console.log({ localContracts });
 
   if (selectedContract) {
     contractTitle = (
@@ -58,15 +56,13 @@ function Erc1155Sandbox({ address, localContracts, mainnetProvider }) {
 
   const getAddressInfo = async values => {
     console.log(values);
-    // if (selectedContract) {
-    //   let _balanceOf = await makeCall("balanceOf", localContracts[selectedContract], [values.address]);
-    //   let _allowanceOf = await makeCall("allowance", localContracts[selectedContract], [address, values.address]);
-    //   let _myAllowanceOn = await makeCall("allowance", localContracts[selectedContract], [values.address, address]);
-    //
-    //   setAddressAllowance(formatUnits(_allowanceOf, decimals));
-    //   setMyAllowanceOnAddress(formatUnits(_myAllowanceOn, decimals));
-    //   setAddressBalance(formatUnits(_balanceOf, decimals));
-    // }
+    let _balanceOf = await makeCall(
+      "balanceOf",
+      localContracts[selectedContract],
+      [values.address, 5],
+    );
+
+    setAddressBalance(_balanceOf);
   };
 
   const executeUpdateFunction = async values => {
@@ -115,17 +111,19 @@ function Erc1155Sandbox({ address, localContracts, mainnetProvider }) {
         </Paragraph>
         <p>{"TotalSupply: " + totalSupply}</p>
         <p>{"Balance: " + myBalance}</p>
-        {selectedContract && localContracts[selectedContract]["mintTokens"] ? (
+        {selectedContract &&
+        localContracts[selectedContract]["mintAttentionReward"] ? (
           <Button
             onClick={async () => {
               let result = await makeCall(
-                "mintTokens",
+                "mintAttentionReward",
                 localContracts[selectedContract],
+                [address],
               );
               console.log(result);
             }}
           >
-            Mint
+            Mint Attention Reward
           </Button>
         ) : null}
         {/*{selectedContract && localContracts[selectedContract]["burnTokens"] ? (*/}

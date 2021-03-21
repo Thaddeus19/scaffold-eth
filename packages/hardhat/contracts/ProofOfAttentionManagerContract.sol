@@ -29,7 +29,7 @@ contract ProofOfAttentionManagerContract is ERC1155, Ownable {
     //////////////////////////////////////////////////////////////////////////////////
     // Custom Logic for this contract ////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////
-    function mintAttentionReward(address to) public onlyOwner returns (bool) {
+    function mintAttentionReward(address to) public returns (bool) {
         _mint(to, ATTENTION_TOKEN, 1, "");
         return true;
     }

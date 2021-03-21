@@ -26,6 +26,9 @@ import { formatEther } from "@ethersproject/units";
 import { Hints, Erc20Sandbox } from "./views";
 import { INFURA_ID } from "./constants";
 import Erc1155Sandbox from "./views/Erc1155Sandbox";
+import UserStory from "./views/UserStory";
+import Post from "./views/Post";
+import Profile from "./views/Profile";
 import Quiz from "./views/Quiz";
 const { Title } = Typography;
 
@@ -118,16 +121,6 @@ function App(props) {
           selectedKeys={[route]}
           mode="horizontal"
         >
-          <Menu.Item key="/">
-            <Link
-              onClick={() => {
-                setRoute("/");
-              }}
-              to="/"
-            >
-              Hints
-            </Link>
-          </Menu.Item>
           <Menu.Item key="/quiz">
             <Link
               onClick={() => {
@@ -135,19 +128,20 @@ function App(props) {
               }}
               to="/quiz"
             >
-              Hints
+              Quiz
             </Link>
           </Menu.Item>
-          <Menu.Item key="/erc20-sandbox">
-            <Link
-              onClick={() => {
-                setRoute("/erc20-sandbox");
-              }}
-              to="/erc20-sandbox"
-            >
-              Example UI
-            </Link>
-          </Menu.Item>
+
+          {/*<Menu.Item key="/erc20-sandbox">*/}
+          {/*  <Link*/}
+          {/*    onClick={() => {*/}
+          {/*      setRoute("/erc20-sandbox");*/}
+          {/*    }}*/}
+          {/*    to="/erc20-sandbox"*/}
+          {/*  >*/}
+          {/*    Example UI*/}
+          {/*  </Link>*/}
+          {/*</Menu.Item>*/}
           <Menu.Item key="/erc1155-sandbox">
             <Link
               onClick={() => {
@@ -182,9 +176,13 @@ function App(props) {
             />
           </Route>
 
-          <Route exact path="/quiz">
-            <Quiz />
+          <Route path="/quiz/:postid" children={<Quiz />} />
+
+          <Route exact path="/story">
+            <UserStory setRoute={setRoute} />
           </Route>
+
+          <Route path="/post/:id" children={<Post />} />
 
           <Route exact path={"/erc1155-sandbox"}>
             <Erc1155Sandbox
@@ -193,6 +191,11 @@ function App(props) {
               mainnetProvider={mainnetProvider}
             />
           </Route>
+
+          <Route exact path={"/profile"}>
+            <Profile />
+          </Route>
+
           <Route path="/contract">
             <Title level={4}>Select contract:</Title>
             <Radio.Group
