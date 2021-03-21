@@ -127,11 +127,11 @@ const questionsForArticle2 = Object.freeze([
 
 export const juicyDetails = {
   1: {
-    link: "link to content url",
+    link: "https://artnftsruledude.eth",
     questions: questionsForArticle1,
   },
   2: {
-    link: "link to content url 2",
+    link: "https://old.reddit.com/r/crytpcurrency/doesnotexist",
     questions: questionsForArticle2,
   },
 };

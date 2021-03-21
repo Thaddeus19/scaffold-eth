@@ -90,9 +90,7 @@ function App(props) {
   const writeContracts = useContractLoader(userProvider);
   if (DEBUG) console.log("🔐 writeContracts", writeContracts);
 
-  let contractOptions = writeContracts ? Object.keys(writeContracts) : [];
-
-  const [selectedContract, setSelectedContract] = useState();
+  const selectedContract = "ProofOfAttentionManagerContract";
 
   const loadWeb3Modal = useCallback(async () => {
     const provider = await web3Modal.connect();
@@ -105,10 +103,14 @@ function App(props) {
     }
   }, [loadWeb3Modal]);
 
-  const [route, setRoute] = useState();
+  const [route, setRoute] = useState("/story");
   useEffect(() => {
     setRoute(window.location.pathname);
   }, [setRoute]);
+
+  if (!writeContracts) {
+    return <div>Loading... s</div>;
+  }
 
   return (
     <div className="App">
@@ -121,14 +123,14 @@ function App(props) {
           selectedKeys={[route]}
           mode="horizontal"
         >
-          <Menu.Item key="/quiz">
+          <Menu.Item key="/story">
             <Link
               onClick={() => {
-                setRoute("/quiz");
+                setRoute("/story");
               }}
-              to="/quiz"
+              to="/story"
             >
-              Quiz
+              Story
             </Link>
           </Menu.Item>
 
@@ -176,7 +178,17 @@ function App(props) {
             />
           </Route>
 
-          <Route path="/quiz/:postid" children={<Quiz />} />
+          <Route
+            path="/quiz/:postid"
+            children={
+              <Quiz
+                myaddress={address}
+                smartContract={
+                  writeContracts["ProofOfAttentionManagerContract"]
+                }
+              />
+            }
+          />
 
           <Route exact path="/story">
             <UserStory setRoute={setRoute} />
@@ -193,26 +205,19 @@ function App(props) {
           </Route>
 
           <Route exact path={"/profile"}>
-            <Profile />
+            <Profile
+              myaddress={address}
+              smartContract={writeContracts["ProofOfAttentionManagerContract"]}
+            />
           </Route>
 
           <Route path="/contract">
-            <Title level={4}>Select contract:</Title>
-            <Radio.Group
-              options={contractOptions}
-              onChange={e => {
-                setSelectedContract(e.target.value);
-              }}
-              value={selectedContract}
+            <Contract
+              name={selectedContract}
+              signer={userProvider.getSigner()}
+              provider={localProvider}
+              address={address}
             />
-            {selectedContract ? (
-              <Contract
-                name={selectedContract}
-                signer={userProvider.getSigner()}
-                provider={localProvider}
-                address={address}
-              />
-            ) : null}
           </Route>
         </Switch>
       </BrowserRouter>

@@ -8,7 +8,6 @@ function Erc1155Sandbox({ address, localContracts, mainnetProvider }) {
   const [addressInfoForm] = Form.useForm();
   const [updateForm] = Form.useForm();
 
-  const [decimals, setDecimals] = useState();
   const [totalSupply, setTotalSupply] = useState();
   const [myBalance, setMyBalance] = useState();
   const [addressBalance, setAddressBalance] = useState();

@@ -13,7 +13,6 @@ export default function Post({ setParam }) {
     <div>
       <h3>ID: {id}</h3>
       <h3>{postUrl}</h3>
-      <li>allow user to quiz</li>
       {/*<li>allow adding comments</li>*/}
       {/*<li>burn attentnion tokens for upvote</li>*/}
       <p>
